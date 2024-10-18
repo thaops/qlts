@@ -21,16 +21,24 @@ class AssetInventory extends StatelessWidget {
         padding: EdgeInsets.all(16.r),
         child: Obx(() {
           if (controller.inventoryItem.isEmpty) {
-            return Center(child: CircularProgressIndicator()); // Hiển thị loading nếu chưa có dữ liệu
+            return Center(
+                child:
+                    CircularProgressIndicator()); // Hiển thị loading nếu chưa có dữ liệu
           }
 
           // Lấy thông tin từ inventoryItem
           var inventoryItem = controller.inventoryItem.value[0];
-          String usageDate = DateUtilsCustom.formatDate(inventoryItem.usageDate);
-          String warrantyDate = DateUtilsCustom.formatDate(inventoryItem.warrantyDate);
+          String usageDate =
+              DateUtilsCustom.formatStringDate(inventoryItem.usageDate);
+          String warrantyDate =
+              DateUtilsCustom.formatStringDate(inventoryItem.warrantyDate);
           String avatarUrl = inventoryItem.avatarUrlSmall ?? '';
-          String prices = inventoryItem.prices.isNotEmpty ? inventoryItem.prices.toString() : '----------';
-          String mainInventoryType = inventoryItem.mainInventoryType.isNotEmpty ? inventoryItem.mainInventoryName : '----------';
+          String prices = inventoryItem.prices.isNotEmpty
+              ? inventoryItem.prices.toString()
+              : '----------';
+          String mainInventoryType = inventoryItem.mainInventoryType.isNotEmpty
+              ? inventoryItem.mainInventoryType
+              : '----------';
           String sector = inventoryItem.sector ?? '----------';
           String location = inventoryItem.location ?? '----------';
 
@@ -40,13 +48,23 @@ class AssetInventory extends StatelessWidget {
               SizedBox(height: 16.h),
               ImgSmall(avatarUrl: avatarUrl), // Hiển thị hình ảnh
               SizedBox(height: 20.h),
-              _buildInfoRow("Ngày sử dụng", usageDate, Icons.calendar_month, "Nguyên giá", prices, Icons.money),
+              _buildInfoRow("Ngày sử dụng", usageDate, Icons.calendar_month,
+                  "Nguyên giá", prices, Icons.money),
               SizedBox(height: 16.h),
-              _buildInfoRow("Loại tài sản", mainInventoryType, Icons.list, "Bảo hành", warrantyDate, Icons.settings_input_hdmi),
+              _buildInfoRow("Loại tài sản", mainInventoryType, Icons.list,
+                  "Bảo hành", warrantyDate, Icons.settings_input_hdmi),
               SizedBox(height: 16.h),
-              CustomLisst(title: "Khu vực", content: sector, icon: Icons.map, onTap: () {}),
+              CustomLisst(
+                  title: "Khu vực",
+                  content: sector,
+                  icon: Icons.map,
+                  onTap: () {}),
               SizedBox(height: 16.h),
-              CustomLisst(title: "Địa điểm", content: location, icon: Icons.location_on, onTap: () {}),
+              CustomLisst(
+                  title: "Địa điểm",
+                  content: location,
+                  icon: Icons.location_on,
+                  onTap: () {}),
             ],
           );
         }),
@@ -55,7 +73,8 @@ class AssetInventory extends StatelessWidget {
   }
 
   // Hàm xây dựng hàng thông tin
-  Widget _buildInfoRow(String title1, String content1, IconData icon1, String title2, String content2, IconData icon2) {
+  Widget _buildInfoRow(String title1, String content1, IconData icon1,
+      String title2, String content2, IconData icon2) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

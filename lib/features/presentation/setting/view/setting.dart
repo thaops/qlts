@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:qlts_flutter/common/img/img.dart';
 import 'package:qlts_flutter/common/widgets/text_widget.dart';
 import 'package:qlts_flutter/core/configs/theme/app_colors.dart';
 import 'package:qlts_flutter/features/presentation/setting/controller/setting_controller.dart';
@@ -22,7 +23,7 @@ class Setting extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-                'assets/logo/background_profile.png'), // Đường dẫn đến hình ảnh nền
+                Img.backgroundProfile), // Đường dẫn đến hình ảnh nền
             fit: BoxFit.fill, // Đảm bảo hình ảnh phủ kín toàn bộ
           ),
         ),

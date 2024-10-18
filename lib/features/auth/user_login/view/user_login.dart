@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qlts_flutter/common/Services/api_endpoints.dart';
+import 'package:qlts_flutter/common/img/img.dart';
 import 'package:qlts_flutter/common/widgets/text_widget.dart';
 import 'package:qlts_flutter/core/configs/theme/app_colors.dart';
 import 'package:qlts_flutter/features/auth/user_login/controller/login_controller.dart';
@@ -22,8 +23,7 @@ class UserLogin extends StatelessWidget {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-                'assets/logo/background.png'), // Đường dẫn đến hình ảnh nền
+            image: AssetImage(Img.background), // Đường dẫn đến hình ảnh nền
             fit: BoxFit.cover, // Đảm bảo hình ảnh phủ kín toàn bộ
           ),
         ),
@@ -39,7 +39,7 @@ class UserLogin extends StatelessWidget {
                   children: [
                     SizedBox(height: 52.h),
                     Image.asset(
-                      'assets/logo/logo.png',
+                      Img.logo,
                       height: 42.h,
                       width: 76.w,
                       fit: BoxFit.cover,

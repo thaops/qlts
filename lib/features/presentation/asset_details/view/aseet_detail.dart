@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qlts_flutter/features/presentation/asset_details/widget/app_bar_deatial.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:qlts_flutter/features/presentation/asset_history/view/asset_history.dart';
 import 'package:qlts_flutter/features/presentation/asset_inventory/controller/asset_detail_controller.dart';
 import 'package:qlts_flutter/features/presentation/asset_inventory/view/asset_inventory.dart';
 
@@ -43,9 +44,11 @@ class AssetDetail extends StatelessWidget {
             return TabBarView(
               children: [
                 AssetInventory(assetId: assetId), // Nội dung cho tab Chi tiết
-                const Center(
-                  child: Text('Lịch sử sửa chữa'), // Nội dung cho tab Lịch sử sửa chữa
-                ),
+                AssetHistory(
+                    assetType:
+                        controller.inventoryItem.value[0].mainInventoryType,
+                    assetLocation: controller.inventoryItem.value[0].location,
+                    mainInventoryId: assetId)
               ],
             );
           } else {

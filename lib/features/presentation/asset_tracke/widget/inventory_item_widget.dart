@@ -7,8 +7,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InventoryItemWidget extends StatelessWidget {
   final InventoryItem item;
-  final Function(String) onItemTap; // Thay đổi kiểu callback thành String
-  const InventoryItemWidget({Key? key, required this.item, required this.onItemTap}) : super(key: key);
+  final Function(String)? onItemTap; // Thay đổi kiểu callback thành String
+  final bool isFirstItem; // Tham số để xác định phần tử đầu tiên
+
+  const InventoryItemWidget({
+    Key? key,
+    required this.item,
+    this.onItemTap,
+    this.isFirstItem = false, // Mặc định là false
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +27,31 @@ class InventoryItemWidget extends StatelessWidget {
     if (item.usageDate != null && item.usageDate!.isNotEmpty) {
       try {
         DateFormat inputFormat = DateFormat('MM/dd/yyyy'); // Định dạng đầu vào
-        DateTime dateTime = inputFormat.parse(item.usageDate!); // Phân tích chuỗi thành DateTime
-        formattedDate = DateFormat('dd/MM/yyyy').format(dateTime); // Định dạng ngày
+        DateTime dateTime = inputFormat
+            .parse(item.usageDate!); // Phân tích chuỗi thành DateTime
+        formattedDate =
+            DateFormat('dd/MM/yyyy').format(dateTime); // Định dạng ngày
       } catch (e) {
         print("Error parsing date: $e"); // In ra lỗi nếu có
-        formattedDate = item.usageDate!; // Nếu không thể phân tích, giữ nguyên chuỗi
+        formattedDate =
+            item.usageDate!; // Nếu không thể phân tích, giữ nguyên chuỗi
       }
     } else {
       formattedDate = 'N/A'; // Hoặc một thông báo mặc định khác
     }
 
-    return GestureDetector( // Thêm GestureDetector để xử lý sự kiện nhấn
-      onTap: () => onItemTap(item.mainInventoryId), // Sử dụng trực tiếp chuỗi
+    return GestureDetector(
+      onTap: () =>
+          onItemTap?.call(item.mainInventoryId), // Kiểm tra null trước khi gọi
       child: Container(
         color: AppColors.white,
-        padding: EdgeInsets.all(24.0.r),
+        padding: EdgeInsets.only(
+          top:
+              isFirstItem ? 0 : 24.0.r, // Không có padding cho phần tử đầu tiên
+          left: 24.0.r,
+          right: 24.0.r,
+          bottom: 24.0.r,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,7 +66,8 @@ class InventoryItemWidget extends StatelessWidget {
                 width: 100.w, // Kích thước hình ảnh
                 height: 100.h,
                 fit: BoxFit.cover,
-                errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                errorBuilder: (BuildContext context, Object error,
+                    StackTrace? stackTrace) {
                   return Container(
                     width: 100.w,
                     height: 100.h,
@@ -57,7 +75,8 @@ class InventoryItemWidget extends StatelessWidget {
                       color: AppColors.grey, // Màu nền khi có lỗi
                       borderRadius: BorderRadius.circular(8.r),
                     ),
-                    child: Icon(Icons.error, color: AppColors.white), // Biểu tượng lỗi
+                    child: Icon(Icons.error,
+                        color: AppColors.white), // Biểu tượng lỗi
                   );
                 },
               ),
@@ -69,7 +88,8 @@ class InventoryItemWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextWidget(
-                    text: "${item.mainInventoryCode} - ${item.mainInventoryName}",
+                    text:
+                        "${item.mainInventoryCode} - ${item.mainInventoryName}",
                     fontSize: 16,
                     color: AppColors.black,
                     fontWeight: FontWeight.bold,
@@ -87,7 +107,8 @@ class InventoryItemWidget extends StatelessWidget {
                       10.horizontalSpace, // Khoảng cách nhỏ hơn giữa các widget
                       Flexible(
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10.w, vertical: 5.h),
                           decoration: BoxDecoration(
                             color: AppColors.colorRedBackground,
                             borderRadius: BorderRadius.circular(12.r),

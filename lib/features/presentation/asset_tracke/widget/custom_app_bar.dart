@@ -5,10 +5,11 @@ import 'package:qlts_flutter/core/configs/theme/app_colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  
-  const CustomAppBar({Key? key, required this.title}) : super(key: key);
+  final Function() onSearch;
+  const CustomAppBar({Key? key, required this.title, required this.onSearch}) : super(key: key);
 
   @override
+
   Widget build(BuildContext context) {
     return AppBar(
       title: TextWidget(
@@ -16,6 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         fontSize: 18,
         fontWeight: FontWeight.bold,
         color: AppColors.black,
+      
       ),
       centerTitle: true,
       backgroundColor: AppColors.white,
@@ -25,7 +27,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: const Icon(Icons.search,
               color: AppColors.primary, size: 24), // Biểu tượng màu trắng
           onPressed: () {
-            // Hành động khi nhấn nút search
+            onSearch();
           },
         ),
       ],

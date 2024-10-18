@@ -14,7 +14,7 @@ class TextWidget extends StatelessWidget {
       required this.text,
       this.fontSize = 24,
       this.fontWeight = FontWeight.w600,
-      this.color = AppColors.yellow,
+      this.color = AppColors.black,
       this.textAlign = TextAlign.left,
       this.maxLines = 1});
 

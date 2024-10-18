@@ -7,6 +7,8 @@ class AppBarQr extends StatelessWidget implements PreferredSizeWidget {
   final bool isFlashOn;
   final VoidCallback toggleFlash;
   final VoidCallback onBackPressed; // Thêm callback cho nút quay lại
+  
+  
 
   const AppBarQr({
     Key? key,

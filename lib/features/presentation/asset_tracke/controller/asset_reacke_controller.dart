@@ -7,7 +7,7 @@ import 'package:qlts_flutter/router/app_router.dart';
 
 class AssetTrackerController extends GetxController {
   var inventoryItemList = <InventoryItem>[].obs;
-  bool isLoading = true; // Biến để theo dõi trạng thái tải
+  var isLoading = false.obs; // Biến để theo dõi trạng thái tải
   int currentPage = 1; // Trang hiện tại
   final int pageSize = 20; // Số lượng item mỗi trang
   AssetTrackerRepository assetTrackerRepository = AssetTrackerRepository();
@@ -22,21 +22,23 @@ class AssetTrackerController extends GetxController {
     Get.toNamed(AppRoutes.assetDetail, arguments: inventoryId); // Truyền ID tài sản
   }
 
+  void onSearch(){
+    Get.toNamed(AppRoutes.assetSearch);
+  }
+
   Future<void> fetchInventoryItems() async {
     final services = await Services.create();
     final accessToken = await services.getAccessToken();
     try {
-      isLoading = true; // Bắt đầu tải
-      update(); // Cập nhật trạng thái
+      isLoading.value = true; // Bắt đầu tải
       final response = await assetTrackerRepository.getAssetTracker(accessToken, currentPage, pageSize);
-      if(response.statusCode == HttpStatusCodes.STATUS_CODE_OK){
+      if (response.statusCode == HttpStatusCodes.STATUS_CODE_OK) {
         inventoryItemList.addAll(response.data); // Thêm dữ liệu vào danh sách
       }
     } catch (e) {
       print("error $e");
     } finally {
-      isLoading = false; // Kết thúc tải
-      update(); // Cập nhật trạng thái
+      isLoading.value = false; // Kết thúc tải
     }
   }
 
