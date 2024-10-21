@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qlts_flutter/common/img/img.dart';
+import 'package:qlts_flutter/common/utils/showSnackbar.dart';
 import 'package:qlts_flutter/common/widgets/text_widget.dart';
 import 'package:qlts_flutter/core/configs/theme/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,14 +25,20 @@ class AssetSearch extends StatelessWidget {
         children: [
           SizedBox(height: 30.h),
           Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Row(
               children: [
+                IconButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  icon: Icon(Icons.arrow_back_ios),
+                ),
                 Expanded(
                   child: SearchField(
                     controller: searchController,
                     onChanged: (value) {
                       if (_debounce?.isActive ?? false) _debounce!.cancel();
-
                       // Tạo timer mới
                       _debounce = Timer(const Duration(seconds: 3), () {
                         controllerAssetSearch
@@ -42,8 +50,15 @@ class AssetSearch extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     controllerAssetSearch.onSearch(searchController.text);
+                    if (!controllerAssetSearch.isDataValid.value) {
+                      SnackbarHelper()
+                          .showSnackbar("Thông báo", "Từ khóa không tồn tại");
+                    }
                   },
-                  child: Text("Tìm Kiếm"),
+                  child: TextWidget(
+                    text: "Tìm Kiếm",
+                    fontSize: 14.sp,
+                  ),
                 ),
               ],
             ),
@@ -52,15 +67,24 @@ class AssetSearch extends StatelessWidget {
           Expanded(
             child: Container(
               color: AppColors.white,
-              child: Obx(() => ListView.builder(
-                    itemCount: controllerAssetSearch.inventoryItem.length,
-                    itemBuilder: (context, index) {
-                      final item = controllerAssetSearch.inventoryItem[index];
-                      return InventoryItemWidget(
-                        item: item,
-                      );
-                    },
-                  )),
+              child: Obx(() {
+                if (controllerAssetSearch.inventoryItem.isEmpty) {
+                  return Center(
+                    child: Image.asset(Img
+                        .errorImage), // Thay đổi đường dẫn đến hình ảnh của bạn
+                  );
+                }
+                return ListView.builder(
+                  itemCount: controllerAssetSearch.inventoryItem.length,
+                  itemBuilder: (context, index) {
+                    final item = controllerAssetSearch.inventoryItem[index];
+                    return InventoryItemWidget(
+                      item: item,
+                      onItemTap: controllerAssetSearch.onItemTap,
+                    );
+                  },
+                );
+              }),
             ),
           ),
         ],
